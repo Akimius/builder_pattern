@@ -9,11 +9,17 @@
 </head>
 <body>
 
-<?php require_once 'classes/Builder.php'?>
+<?php require_once 'index.php'?>
 
     <?php
 
         var_dump($comp);
+
+        foreach($comp as $c=>$v)
+        {
+            echo 'PC part: ' . $c . ', ' . 'Component: ' . $v . '<br>';
+        }
+
     ?>
 
 </body>

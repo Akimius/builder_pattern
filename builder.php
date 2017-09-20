@@ -1,99 +1,171 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+class Computer
+{
+    private $cpu = '';
+    private $gpu = '';
+    private $ram = '';
 
-    <style>
-        .inputstl {
-            padding: 9px;
-            border: solid 1px #0077B0;
-            outline: 0;
-            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #C6ECFF), to(#FFFFFF));
-            background: -moz-linear-gradient(top, #FFFFFF, #C6ECFF 1px, #FFFFFF 25px);
-            box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-            -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-            -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    // Setters block
+    public function setCpu($cpu)
+    {
+        $this->cpu = $cpu;
+    }
+    public function setGpu($gpu)
+    {
+        $this->gpu = $gpu;
+    }
+    public function setRam($ram)
+    {
+        $this->ram = $ram;
+    }
+    // Getters block
+    public function getCpu()
+    {
+        return $this->cpu;
+    }
+    public function getGpu()
+    {
+        return $this->gpu;
+    }
+    public function getRam()
+    {
+        return $this->ram;
+    }
+}
 
+abstract class ComputerBuilder
+{
+    protected $computer;
+
+    public function getComputer()
+    {
+        return $this->computer;
+    }
+
+    public function createNewComputer()
+    {
+        $this->computer = new Computer();
+    }
+
+    abstract public function buildCpu($cpu);
+    abstract public function buildGpu($gpu);
+    abstract public function buildRam($ram);
+}
+
+class CustomComputer extends ComputerBuilder
+{
+    public function buildCpu($cpu)
+    {
+        $this->computer->setCpu($cpu);
+    }
+    public function buildGpu($gpu)
+    {
+        $this->computer->setGpu($gpu);
+    }
+    public function buildRam($ram)
+    {
+        $this->computer->setRam($ram);
+    }
+}
+
+class Assemble
+{
+    private $computerBuilder;
+
+    public function setComputerBuilder(ComputerBuilder $cb)
+    {
+        $this->computerBuilder = $cb;
+    }
+
+    public function getAssemble()
+    {
+        return $this->computerBuilder->getComputer();
+    }
+
+    public function runAssemble($data)
+    {
+        $this->computerBuilder->createNewComputer();
+
+        $this->computerBuilder->buildCpu($data['cpu']);
+        $this->computerBuilder->buildGpu($data['gpu']);
+        $this->computerBuilder->buildRam($data['ram']);
+    }
+}
+
+interface SaleManagerInterface
+{
+    public function addCustomer(Customer $customer);
+
+    public function removeCustomer(Customer $customer);
+
+    public function notify();
+}
+
+class SaleManager implements SaleManagerInterface
+{
+    private $customers = [];
+
+    public function addCustomer(Customer $c)
+    {
+        $this->customers[] = $c;
+    }
+
+    public function removeCustomer(Customer $c)
+    {
+        //
+    }
+
+    public function notify()
+    {
+        foreach($this->customers as $customer){
+            $customer->eventHandler();
         }
-    </style>
+    }
 
-</head>
-<body>
-<div class="container">
-    <div class="container">
-        <h1>Create PC of your dream</h1>
-    </div>
-    <hr>
+}
 
+class Customer
+{
+    private $name;
 
-    <form class="form-horizontal" role="form" action="show.php" method="post">
+    public function __construct($name)
+    {
+        $this->name = $name;
 
-        <div class="form-group">
-            <label for="cpu" class="col-sm-2 control-label">Select CPU:</label>
-            <div class="col-sm-2">
-                <select class="form-control inputstl" id="cpuid" name="cpu">
-                    <option selected>Intel</option>
-                    <option>AMD</option>
-                    <option>Athlon</option>
-                    <option>Celeron</option>
-                </select>
-            </div>
-
-            <label for="mb" class="col-sm-2 control-label">Select Mother-board:</label>
-            <div class="col-sm-2">
-                <select class="form-control inputstl" id="mbid" name="mb">
-                    <option selected>Asus</option>
-                    <option>MSI</option>
-                    <option>ASRock</option>
-                </select>
-            </div>
-
-            <label for="ram" class="col-sm-2 control-label">Select RAM:</label>
-            <div class="col-sm-2">
-                <select class="form-control inputstl" id="ramid" name="ram">
-                    <option selected>Samsung</option>
-                    <option>Transcend</option>
-                    <option>Kingston</option>
-                    <option>Patriot</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-
-            <label for="hdd" class="col-sm-2 control-label">Select HDD:</label>
-            <div class="col-sm-2">
-                <select class="form-control inputstl" id="hddid" name="hdd">
-                    <option selected>Toshiba</option>
-                    <option>Hitachi</option>
-                    <option>Lenovo</option>
-                    <option>Apacer</option>
-                    <option>Verbatim</option>
-                </select>
-            </div>
-
-            <label for="vc" class="col-sm-2 control-label">Select Video card:</label>
-            <div class="col-sm-2">
-                <select class="form-control inputstl" id="vcid" name="vcard">
-                    <option selected>Dell</option>
-                    <option>HP</option>
-                    <option>MSI</option>
-                </select>
-            </div>
-        </div>
-
-        <hr>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-4">
-                    <button type="submit" class="btn btn-lg btn-block btn-info">Build computer</button>
-                </div>
-            </div>
+    }
+    public function eventHandler()
+    {
+        echo $this->name . 'The comp is ready, please come';
+    }
+}
 
 
 
-    </form>
-</div>
-</body>
-</html>
+    if(!empty($_POST)){
+
+        $assemble = new Assemble();
+
+        $customComputer = new CustomComputer();
+
+        $assemble->setComputerBuilder($customComputer);
+
+        $assemble->runAssemble($_POST);
+
+        $computer = $assemble->getAssemble();
+
+
+        $alex = new Customer('Alex');
+        $misha = new Customer('Misha');
+
+        $saleManager = new SaleManager();
+        $saleManager->addCustomer($alex);
+        $saleManager->addCustomer($misha);
+
+        $misha->eventHandler();
+
+    }
+
+var_dump($computer);
+
+
 
