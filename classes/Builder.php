@@ -2,34 +2,56 @@
 class Computer
 {
     private $cpu = '';
-    private $gpu = '';
+    private $mboard = '';
     private $ram = '';
+
+    private $hdd = '';
+    private $vcard = '';
 
     // Setters block
     public function setCpu($cpu)
     {
         $this->cpu = $cpu;
     }
-    public function setGpu($gpu)
+    public function setMboard($mboard)
     {
-        $this->gpu = $gpu;
+        $this->mboard = $mboard;
     }
     public function setRam($ram)
     {
         $this->ram = $ram;
     }
+
+    public function setHdd($hdd)
+    {
+        $this->hdd = $hdd;
+    }
+    public function setVcard($vcard)
+    {
+        $this->vcard = $vcard;
+    }
+
     // Getters block
     public function getCpu()
     {
         return $this->cpu;
     }
-    public function getGpu()
+    public function getMboard()
     {
-        return $this->gpu;
+        return $this->mboard;
     }
     public function getRam()
     {
         return $this->ram;
+    }
+
+    public function getHdd()
+    {
+        return $this->hdd;
+    }
+    public function getVcard()
+    {
+        return $this->vcard;
     }
 }
 
@@ -48,8 +70,11 @@ abstract class ComputerBuilder
     }
 
     abstract public function buildCpu($cpu);
-    abstract public function buildGpu($gpu);
+    abstract public function buildMboard($mboard);
     abstract public function buildRam($ram);
+
+    abstract public function buildHdd($hdd);
+    abstract public function buildVcard($vcard);
 }
 
 class CustomComputer extends ComputerBuilder
@@ -58,13 +83,22 @@ class CustomComputer extends ComputerBuilder
     {
         $this->computer->setCpu($cpu);
     }
-    public function buildGpu($gpu)
+    public function buildMboard($mboard)
     {
-        $this->computer->setGpu($gpu);
+        $this->computer->setMboard($mboard);
     }
     public function buildRam($ram)
     {
         $this->computer->setRam($ram);
+    }
+
+    public function buildHdd($hdd)
+    {
+        $this->computer->setHdd($hdd);
+    }
+    public function buildVcard($vcard)
+    {
+        $this->computer->setVcard($vcard);
     }
 }
 
@@ -87,8 +121,11 @@ class Assemble
         $this->computerBuilder->createNewComputer();
 
         $this->computerBuilder->buildCpu($data['cpu']);
-        $this->computerBuilder->buildGpu($data['gpu']);
+        $this->computerBuilder->buildMboard($data['mboard']);
         $this->computerBuilder->buildRam($data['ram']);
+
+        $this->computerBuilder->buildHdd($data['hdd']);
+        $this->computerBuilder->buildVcard($data['vcard']);
     }
 }
 
@@ -121,7 +158,6 @@ class SaleManager implements SaleManagerInterface
             $customer->eventHandler();
         }
     }
-
 }
 
 class Customer
@@ -135,11 +171,9 @@ class Customer
     }
     public function eventHandler()
     {
-        echo $this->name . 'The comp is ready, please come';
+        echo $this->name . ', your PC is ready, please come to pick it';
     }
 }
-
-
 
     if(!empty($_POST)){
 
@@ -153,19 +187,11 @@ class Customer
 
         $computer = $assemble->getAssemble();
 
-
-        $alex = new Customer('Alex');
-        $misha = new Customer('Misha');
+        $cust = new Customer($_POST['username']);
 
         $saleManager = new SaleManager();
-        $saleManager->addCustomer($alex);
-        $saleManager->addCustomer($misha);
+        $saleManager->addCustomer($cust);
 
-        $misha->eventHandler();
+        // $misha->eventHandler();
 
     }
-
-var_dump($computer);
-
-
-

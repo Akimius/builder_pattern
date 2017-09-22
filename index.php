@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        .inputstl {
-            padding: 9px;
-            border: solid 1px #0077B0;
-            outline: 0;
-            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #C6ECFF), to(#FFFFFF));
-            background: -moz-linear-gradient(top, #FFFFFF, #C6ECFF 1px, #FFFFFF 25px);
-            box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-            -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-            -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 
-        }
-    </style>
 
 </head>
 <body>
@@ -24,10 +13,10 @@
     <div class="container">
         <h1>Create PC of your dream</h1>
     </div>
+
     <hr>
 
-
-    <form class="form-horizontal" role="form" action="builder.php" method="post">
+    <form class="form-horizontal" role="form" action="/show.php" method="post">
 
         <div class="form-group">
             <label for="cpu" class="col-sm-2 control-label">Select CPU:</label>
@@ -42,7 +31,7 @@
 
             <label for="mb" class="col-sm-2 control-label">Select Mother-board:</label>
             <div class="col-sm-2">
-                <select class="form-control inputstl" id="mbid" name="gpu">
+                <select class="form-control inputstl" id="mbid" name="mboard">
                     <option selected>Asus</option>
                     <option>MSI</option>
                     <option>ASRock</option>
@@ -60,7 +49,7 @@
             </div>
         </div>
 
-<!--        <div class="form-group">
+        <div class="form-group">
 
             <label for="hdd" class="col-sm-2 control-label">Select HDD:</label>
             <div class="col-sm-2">
@@ -82,17 +71,24 @@
                 </select>
             </div>
         </div>
--->
+
         <hr>
+
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-4">
-                <button type="submit" class="btn btn-lg btn-block btn-info">Build computer</button>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">@</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" name="username" required>
             </div>
         </div>
 
-
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-lg btn-block btn-primary">Build computer</button>
+            </div>
+        </div>
 
     </form>
+
 </div>
 </body>
 </html>
